@@ -1,0 +1,99 @@
+# HofX4D template for lola using oops::PseudoModel.
+# The PseudoModel steps through a sequence of MERRA-2 files covering the assimilation window.
+# Run with: lola_hofx4d.x hofx4d.yaml
+
+geometry:
+  function space: StructuredColumns
+  grid:
+    name: L576x361
+  levels: 72
+  levels are top down: true
+  levels per variable:
+    - name: air_temperature
+      levels: 72
+    - name: specific_humidity
+      levels: 72
+    - name: eastward_wind
+      levels: 72
+    - name: northward_wind
+      levels: 72
+    - name: air_pressure
+      levels: 72
+    - name: air_pressure_at_surface
+      levels: 1
+  ak: []  # fill with 73 MERRA-2 ak values (Pa)
+  bk: []  # fill with 73 MERRA-2 bk values (dimensionless)
+  model top pressure: 0.01
+
+# Assimilation window: 6-hour window centred on the analysis time
+time window:
+  begin: '2020-01-15T00:00:00Z'
+  length: PT6H
+
+# Initial condition at the beginning of the window
+initial condition:
+  date: '2020-01-15T00:00:00Z'
+  variables:
+    - name: air_temperature
+      levels: 72
+    - name: specific_humidity
+      levels: 72
+    - name: eastward_wind
+      levels: 72
+    - name: northward_wind
+      levels: 72
+    - name: air_pressure_at_surface
+      levels: 1
+  filepath: /path/to/MERRA2.inst3_3d_asm_Nv.20200115_0000z.nc4
+
+# PseudoModel: reads successive MERRA-2 files at each 3-hourly time step.
+# The "states from template" pattern replaces %hh% with the UTC hour (00, 03, 06).
+model:
+  name: PseudoModel
+  tstep: PT3H
+  states from template:
+    template:
+      variables:
+        - name: air_temperature
+          levels: 72
+        - name: specific_humidity
+          levels: 72
+        - name: eastward_wind
+          levels: 72
+        - name: northward_wind
+          levels: 72
+        - name: air_pressure_at_surface
+          levels: 1
+      filepath: /path/to/MERRA2.inst3_3d_asm_Nv.20200115_%hh%00z.nc4
+    start datetime: '2020-01-15T03:00:00Z'   # first state AFTER the initial condition
+    number of states: 2                        # 03Z and 06Z for a 6-hour window
+    pattern: '%hh%'
+    start: 3
+    zero padding: 2
+
+# Optional: variable change from MERRA-2 names to CF/GeoVaLs names via VADER
+variable change:
+  variable change name: Model2GeoVaLs
+  vader:
+    vader variables: []   # add VADER recipes here as needed
+
+# Observation spaces
+observations:
+  - obs space:
+      name: Radiosonde
+      obsdatain:
+        engine:
+          type: H5File
+          obsfile: /path/to/sondes_20200115_window.nc
+      obsdataout:
+        engine:
+          type: H5File
+          obsfile: /path/to/hofx4d_sondes_output.nc
+      simulated variables:
+        - name: air_temperature
+          levels: 1
+    obs operator:
+      name: VertInterp
+      vertical coordinate: air_pressure
+      observation vertical coordinate: pressure
+      interpolation method: log-linear

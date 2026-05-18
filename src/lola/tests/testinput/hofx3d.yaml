@@ -1,0 +1,69 @@
+# HofX3D template for lola.
+# Requires: a MERRA-2 state file (NetCDF) and IODA observation files.
+# Run with: lola_hofx3d.x hofx3d.yaml
+
+geometry:
+  function space: StructuredColumns
+  grid:
+    name: L576x361
+  levels: 72
+  levels are top down: true
+  levels per variable:
+    - name: air_temperature
+      levels: 72
+    - name: specific_humidity
+      levels: 72
+    - name: eastward_wind
+      levels: 72
+    - name: northward_wind
+      levels: 72
+    - name: air_pressure
+      levels: 72
+    - name: air_pressure_at_surface
+      levels: 1
+  ak: []  # fill with 73 MERRA-2 ak values (Pa)
+  bk: []  # fill with 73 MERRA-2 bk values (dimensionless)
+  model top pressure: 0.01
+
+# Single MERRA-2 analysis or forecast state
+state:
+  date: '2020-01-15T00:00:00Z'
+  variables:
+    - name: air_temperature
+      levels: 72
+    - name: specific_humidity
+      levels: 72
+    - name: eastward_wind
+      levels: 72
+    - name: northward_wind
+      levels: 72
+    - name: air_pressure_at_surface
+      levels: 1
+  filepath: /path/to/MERRA2.inst3_3d_asm_Nv.20200115_0000z.nc4
+
+# Optional: variable change from MERRA-2 names to CF/GeoVaLs names via VADER
+variable change:
+  variable change name: Model2GeoVaLs
+  vader:
+    vader variables: []   # add VADER recipes here as needed
+
+# Observation spaces — one entry per instrument/platform
+observations:
+  - obs space:
+      name: Radiosonde
+      obsdatain:
+        engine:
+          type: H5File
+          obsfile: /path/to/sondes.nc
+      obsdataout:
+        engine:
+          type: H5File
+          obsfile: /path/to/hofx3d_sondes_output.nc
+      simulated variables:
+        - name: air_temperature
+          levels: 1
+    obs operator:
+      name: VertInterp
+      vertical coordinate: air_pressure
+      observation vertical coordinate: pressure
+      interpolation method: log-linear
