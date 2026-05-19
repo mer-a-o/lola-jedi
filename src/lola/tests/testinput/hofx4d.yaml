@@ -30,7 +30,8 @@ time window:
   begin: '2020-01-15T00:00:00Z'
   length: PT6H
 
-# Initial condition at the beginning of the window
+# Initial condition at the beginning of the window.
+# 'variable name map' remaps CF names to MERRA-2 NetCDF short names at read time.
 initial condition:
   date: '2020-01-15T00:00:00Z'
   variables:
@@ -45,6 +46,12 @@ initial condition:
     - name: air_pressure_at_surface
       levels: 1
   filepath: /path/to/MERRA2.inst3_3d_asm_Nv.20200115_0000z.nc4
+  variable name map:
+    air_temperature: T
+    specific_humidity: Q
+    eastward_wind: U
+    northward_wind: V
+    air_pressure_at_surface: PS
 
 # PseudoModel: reads successive MERRA-2 files at each 3-hourly time step.
 # The "states from template" pattern replaces %hh% with the UTC hour (00, 03, 06).

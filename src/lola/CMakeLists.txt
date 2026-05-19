@@ -2,6 +2,7 @@
 list(APPEND lola_src_files
      Increment.cc
      Increment.h
+     IOUtils.h
      Model.h
      State.cc
      State.h

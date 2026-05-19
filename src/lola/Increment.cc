@@ -9,6 +9,7 @@
 
 #include "eckit/config/Configuration.h"
 #include "eckit/exception/Exceptions.h"
+#include "lola/IOUtils.h"
 #include "mist/base/Geometry.h"
 #include "oops/base/Variables.h"
 #include "oops/util/DateTime.h"
@@ -23,7 +24,7 @@ void Increment::read(const eckit::Configuration & config) {
     ASSERT(var.getLevels() != -1);
   }
   fields_.fieldSet().clear();
-  util::readFieldSet(geomData_.comm(), geomData_.functionSpace(), vars_, config,
+  readFieldSetMapped(geomData_.comm(), geomData_.functionSpace(), vars_, config,
                      fields_.fieldSet());
   setFieldMetadata();
   oops::Log::trace() << "lola::Increment::read done" << std::endl;
