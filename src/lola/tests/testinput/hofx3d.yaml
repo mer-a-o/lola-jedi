@@ -9,7 +9,13 @@ time window:
 geometry:
   function space: StructuredColumns
   grid:
-    name: L576x361
+    type: regular_lonlat
+    nx: 576
+    ny: 361
+    domain :
+      type : "global"
+      units : "degrees"
+      west: -180.
   levels: 72
   levels are top down: true
   levels per variable:
