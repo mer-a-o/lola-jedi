@@ -1,7 +1,8 @@
 # lola-jedi — LOLA: Lat/Lon OOPS Layer/Adapter
 
 LOLA is a minimal JEDI model interface for running `oops::HofX3D` and `oops::HofX4D`
-on regular latitude/longitude grids, with MERRA-2 as the primary target grid.
+on regular latitude/longitude grids. The checked-in examples cover GEOS-CF/TEMPO
+HofX3D and MERRA-2-style 72-level model grids.
 It reuses the `mist::base` infrastructure from OOPS so that only file I/O and grid
 configuration need to be specified here.
 
@@ -28,37 +29,61 @@ The `lola::Model` class is a stub that satisfies the C++ interface required by
 `instantiateModelFactory`. At runtime, always use `name: PseudoModel` in the YAML
 `model` section — the stub is never called.
 
-## MERRA-2 grid
+## Grids
 
-MERRA-2 native horizontal resolution: **576 × 361** (0.625° longitude × 0.5° latitude).
+LOLA uses ATLAS `StructuredColumns` grids. The GEOS-CF HOFX test uses a coarse
+regular lon/lat grid:
 
 ```yaml
 geometry:
   function space: StructuredColumns
   grid:
-    name: L576x361
+    type: regular_lonlat
+    nx: 48
+    ny: 25
   levels: 72
+  levels are top down: true
 ```
 
-The 72-level hybrid sigma-pressure vertical coordinate uses 73 interface coefficients
-(`ak` in Pa, `bk` dimensionless). Full coefficient values are in
-[`src/lola/tests/testinput/geometry.yaml`](src/lola/tests/testinput/geometry.yaml).
+The MERRA-2 template uses the native **576 x 361** grid
+(0.625 degree longitude x 0.5 degree latitude). The 72-level hybrid
+sigma-pressure vertical coordinate uses 73 interface coefficients (`ak` in Pa,
+`bk` dimensionless). Full coefficient values are in
+[`src/lola/tests/testinput/geometry.yaml`](src/lola/tests/testinput/geometry.yaml)
+and the HOFX templates.
 
 ## Building
 
 LOLA is built as part of `jedi-bundle`. No extra options are required:
 
 ```bash
+cd build
 cmake -DCMAKE_BUILD_TYPE=Release /path/to/jedi-bundle
-make lola lola_hofx3d.x lola_hofx4d.x
+make -j4
 ```
 
-To run the geometry unit test:
+or use `ecbuild`:
 
 ```bash
-make lola_test_geometry.x
-ctest -R lola_test_geometry
+cd build
+ecbuild /path/to/jedi-bundle
+make -j4
 ```
+
+
+To run the tests:
+
+```bash
+ctest -R lola_test_geometry
+ctest -R lola_hofx3d_geoscf
+```
+
+The GEOS-CF HOFX CTest reads its YAML and small NetCDF inputs from
+[`src/lola/tests/testinput`](src/lola/tests/testinput):
+
+- [`hofx3d_geoscf.yaml`](src/lola/tests/testinput/hofx3d_geoscf.yaml)
+- `DATA/geoscf.latlon.7.5deg.2023-08-10T00:00:00Z.nc`
+- `DATA/tempo_no2_tropo.20230809T210000Z_small.nc4`
 
 ## Executables
 
@@ -70,32 +95,42 @@ ctest -R lola_test_geometry
 ### HofX3D
 
 ```bash
-lola_hofx3d.x hofx3d.yaml
+lola_hofx3d.x hofx3d_geoscf.yaml
 ```
 
 Minimum YAML structure — see
-[`src/lola/tests/testinput/hofx3d.yaml`](src/lola/tests/testinput/hofx3d.yaml)
-for a full template.
+[`src/lola/tests/testinput/hofx3d_geoscf.yaml`](src/lola/tests/testinput/hofx3d_geoscf.yaml)
+for the GEOS-CF/TEMPO CTest and
+[`src/lola/tests/testinput/hofx3d_merra2.yaml`](src/lola/tests/testinput/hofx3d_merra2.yaml)
+for a MERRA-2-style template.
 
 ```yaml
 geometry:
   function space: StructuredColumns
   grid:
-    name: L576x361
+    type: regular_lonlat
+    nx: 48
+    ny: 25
   levels: 72
+  levels are top down: true
   ...
 
 state:
-  date: '2020-01-15T00:00:00Z'
+  date: '2023-08-10T00:00:00Z'
   variables: [...]
-  filepath: /path/to/MERRA2.inst3_3d_asm_Nv.20200115_0000z.nc4
+  filepath: testinput/DATA/geoscf.latlon.7.5deg.2023-08-10T00:00:00Z
+  netcdf extension: nc
+  latitude south to north: false
 
 observations:
+  observers:
   - obs space: ...
     obs operator: ...
 ```
 
 ### HofX4D with PseudoModel
+
+In progress...
 
 ```bash
 lola_hofx4d.x hofx4d.yaml
@@ -123,16 +158,16 @@ model:
 
 ## Variable mapping
 
-MERRA-2 variable names differ from the CF/GeoVaLs names expected by UFO observation
-operators. Map them via VADER in the run YAML — no C++ code changes needed:
+Input-file variable names can differ from the CF/GeoVaLs names expected by UFO
+observation operators. Map them in the `state` section with `variable name map`;
+larger transformations can still be configured through VADER:
 
 ```yaml
-variable change:
-  variable change name: Model2GeoVaLs
-  vader:
-    vader variables:
-      - name: air_temperature
-        # add VADER recipes as needed
+state:
+  variables:
+    - air_temperature
+  variable name map:
+    air_temperature: T
 ```
 
 ## Dependencies
