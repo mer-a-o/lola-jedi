@@ -75,7 +75,7 @@ state:
     - air_pressure_thickness
     - air_pressure_at_surface
 
-  filepath: /discover/nobackup/mabdiosk/garage/applications/LOLA/hofx/inputs/bkg/converttolatlon.7.5deg.fixed..2023-08-10T00:00:00Z.latlon.modelLevels
+  filepath: testinput/DATA/geoscf.latlon.7.5deg.2023-08-10T00:00:00Z
   netcdf extension: nc
   # lat goes from +90 to -90
   latitude south to north: false
@@ -96,12 +96,12 @@ observations:
       name: tempo_no2_tropo
       obsdatain:
         engine:
-          obsfile: /discover/nobackup/mabdiosk/garage/applications/LOLA/hofx/inputs/from_swell/tempo_no2_tropo.20230809T210000Z_small.nc4
+          obsfile: testinput/DATA/tempo_no2_tropo.20230809T210000Z_small.nc4
           type: H5File
       obsdataout:
         engine:
           allow overwrite: true
-          obsfile: outputs/fb.lola.hofx3d.convertstate.fixed.tempo_no2_tropo.20230809T210000Z_c12.nc4
+          obsfile: outputs/fb.lola.hofx3d.tempo_no2_tropo.20230809T210000Z_c12.nc4
           type: H5File
       observed variables:
       - nitrogendioxideColumn

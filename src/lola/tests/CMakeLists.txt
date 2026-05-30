@@ -8,16 +8,25 @@ endmacro()
 
 list(APPEND lola_testinput
      testinput/geometry.yaml
-     testinput/hofx3d.yaml
-     testinput/hofx4d.yaml
+     testinput/hofx3d_geoscf.yaml
+#     testinput/hofx3d_merra2.yaml
+#     testinput/hofx4d.yaml
+     testinput/DATA
      )
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/testinput)
 LINK_FILES("${lola_testinput}" ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/outputs)
+
 ecbuild_add_test(TARGET lola_test_geometry
                  ARGS testinput/geometry.yaml
                  COMMAND lola_test_geometry.x
+                 )
+
+ecbuild_add_test(TARGET lola_hofx3d_geoscf
+                 ARGS testinput/hofx3d_geoscf.yaml
+                 COMMAND lola_hofx3d.x
                  )
 
 add_subdirectory(executables)
