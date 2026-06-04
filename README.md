@@ -54,7 +54,8 @@ and the HOFX templates.
 
 ## Building
 
-LOLA is built as part of `jedi-bundle`. No extra options are required:
+LOLA is built as part of `jedi-bundle`. A sample `CMakeLists.txt` is available [here](docs/CMakeLists.txt).
+No extra cmake options are required:
 
 ```bash
 cd build
