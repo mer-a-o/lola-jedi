@@ -11,6 +11,7 @@ list(APPEND lola_testinput
      testinput/hofx3d_geoscf.yaml
 #     testinput/hofx3d_merra2.yaml
 #     testinput/hofx4d.yaml
+     testinput/3dvar_geoscf_no2.yaml
      testinput/DATA
      )
 
@@ -27,6 +28,11 @@ ecbuild_add_test(TARGET lola_test_geometry
 ecbuild_add_test(TARGET lola_hofx3d_geoscf
                  ARGS testinput/hofx3d_geoscf.yaml
                  COMMAND lola_hofx3d.x
+                 )
+
+ecbuild_add_test(TARGET lola_3dvar_geoscf_no2
+                 ARGS testinput/3dvar_geoscf_no2.yaml
+                 COMMAND lola_var.x
                  )
 
 add_subdirectory(executables)
