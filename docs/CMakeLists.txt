@@ -1,3 +1,6 @@
+# (C) Copyright 2024 UCAR
+#
+
 cmake_minimum_required( VERSION 3.14 FATAL_ERROR )
 
 find_package( ecbuild 3.6 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../ecbuild)
@@ -47,10 +50,34 @@ include( $ENV{jedi_cmake_ROOT}/share/jedicmake/Functions/git_functions.cmake )
 #ecbuild_bundle( PROJECT fckit    GIT "https://github.com/ecmwf/fckit.git" TAG 0.11.0 )
 #ecbuild_bundle( PROJECT atlas    GIT "https://github.com/ecmwf/atlas.git" TAG 0.35.0 )
 
+#option(BUILD_GSIBEC "Build GSIbec" OFF)
+#if(BUILD_GSIBEC)
+#  ecbuild_bundle( PROJECT gsibec   GIT "https://github.com/geos-esm/GSIbec" TAG 1.4.2 )
+#endif()
+#
+#option(BUILD_RTTOV "Build RTTOV" OFF)
+#if(BUILD_RTTOV)
+#  ecbuild_bundle( PROJECT rttov    GIT "https://github.com/jcsda-internal/rttov" BRANCH develop UPDATE )
+#endif()
+#
+#option(BUILD_OASIM "Build OASIM" OFF)
+#if(BUILD_OASIM)
+#  ecbuild_bundle( PROJECT oasim    GIT "https://github.com/jcsda-internal/oasim.git" BRANCH develop UPDATE )
+#endif()
+#
+#option(BUILD_ROPP "Build ROPP" OFF)
+#if(BUILD_ROPP)
+#  ecbuild_bundle( PROJECT ropp-ufo GIT "https://github.com/jcsda-internal/ropp-test.git"  BRANCH develop UPDATE )
+#endif()
+#
+#ecbuild_bundle( PROJECT gsw      GIT "https://github.com/jcsda-internal/GSW-Fortran.git" BRANCH develop UPDATE )
 
-ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        BRANCH feature/mist_demo_using_base UPDATE )
+#ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        BRANCH feature/mist_demo_using_base UPDATE )
+ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        TAG 56d17759002dc60506ceb25b27f794a652d23962 )
 
-ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       BRANCH develop UPDATE )
+#ecbuild_bundle( PROJECT jedi-model-data GIT "https://github.com/jcsda-internal/jedi-model-data.git"  BRANCH develop UPDATE )
+#ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       TAG f74de9519c02084ac4ed80738374ddf1d7771e44 )
 ecbuild_bundle( PROJECT saber    GIT "https://github.com/jcsda-internal/saber.git"       TAG 8571579e )  # pinned: last commit before oops::Diffusion::VerticalMethod dependency (PR #1234)
 
 
@@ -58,15 +85,49 @@ ecbuild_bundle( PROJECT crtm     GIT "https://github.com/jcsda/CRTMv3.git"      
 
 option(ENABLE_IODA_DATA "Obtain ioda test data from ioda-data repository (vs tarball)" ON)
 ecbuild_bundle( PROJECT ioda-data GIT "https://github.com/jcsda-internal/ioda-data.git"  BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        TAG 4c01e4857fc33b517a1890a8bb466698c019984d )
+#ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        BRANCH develop UPDATE )
 
 option(ENABLE_UFO_DATA "Obtain ufo test data from ufo-data repository (vs tarball)" ON)
 ecbuild_bundle( PROJECT ufo-data GIT "https://github.com/jcsda-internal/ufo-data.git"    BRANCH develop UPDATE )
+#ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         BRANCH develop UPDATE )
 ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         TAG a13a70e42 )  # pinned: last commit before shared_ptr→reference change in ObsFilters (PR #4112)
 
 
 ecbuild_bundle( PROJECT lola-jedi      GIT "https://github.com/mer-a-o/lola-jedi.git"         BRANCH main UPDATE )
 
+# Build IODA converters if requested
+#option(BUILD_IODA_CONVERTERS "Build IODA Converters" OFF)
+#if(BUILD_IODA_CONVERTERS)
+#  ecbuild_bundle( PROJECT iodaconv GIT "https://github.com/jcsda-internal/ioda-converters.git" BRANCH develop UPDATE )
+#endif()
+#
+#ecbuild_bundle( PROJECT fv3-jedi-lm GIT "https://github.com/jcsda-internal/fv3-jedi-linearmodel.git"      BRANCH develop UPDATE )
+#
+#option(ENABLE_FV3_JEDI_DATA "Obtain fv3-jedi test data from fv3-jedi-data repository (vs tarball)" ON)
+#ecbuild_bundle( PROJECT fv3-jedi-data  GIT "https://github.com/jcsda-internal/fv3-jedi-data.git"          BRANCH develop UPDATE )
+#ecbuild_bundle( PROJECT fv3-jedi    GIT "https://github.com/jcsda-internal/fv3-jedi.git"                  BRANCH develop UPDATE )
+#
+#ecbuild_bundle( PROJECT soca        GIT "https://github.com/jcsda-internal/soca.git"            BRANCH develop UPDATE RECURSIVE )
+#
+#option(BUILD_MPAS "Build mpas-jedi" ON)
+#if(BUILD_MPAS)
+#  set(MPAS_DOUBLE_PRECISION "ON" CACHE STRING "MPAS-Model: Use double precision 64-bit Floating point.")
+#  set(MPAS_CORES init_atmosphere atmosphere CACHE STRING "MPAS-Model: cores to build.")
+#  set(MPAS_OPENMP "ON" CACHE STRING "MPAS-Model: Enable OpenMP.")
+#
+#  # Using a commit from MPAS-model release-v8.4.0 branch which contains the fix for MPAS-model#1420. Once an offical tag with this fix exists we should use that instead.
+#  ecbuild_bundle( PROJECT mpas           GIT "https://github.com/MPAS-Dev/MPAS-Model.git"     TAG v8.4.0 )
+#  ecbuild_bundle( PROJECT mpas-jedi-data GIT "https://github.com/jcsda-internal/mpas-jedi-data.git" BRANCH develop UPDATE )
+#  ecbuild_bundle( PROJECT mpas-jedi      GIT "https://github.com/jcsda-internal/mpas-jedi.git"      BRANCH develop UPDATE )
+#endif()
+#
+#ecbuild_bundle( PROJECT coupling   GIT "https://github.com/jcsda-internal/coupling.git"           BRANCH develop UPDATE )
+#
+#option(BUILD_PYIRI "Build PyIRI-jedi" OFF)
+#if(BUILD_PYIRI)
+#  ecbuild_bundle( PROJECT pyiri-jedi  GIT "https://github.com/jcsda-internal/pyiri-jedi.git"  BRANCH develop UPDATE RECURSIVE )
+#endif()
 
 ecbuild_bundle_finalize()
 
