@@ -18,11 +18,11 @@
 
 namespace lola {
 
-State::State(const mist::base::Geometry & geom, const eckit::Configuration & config)
-    : mist::base::State(geom,
-                        oops::Variables(config, "variables"),
-                        util::DateTime(config.getString("date")),
-                        false) {
+State::State(const mist::Geometry & geom, const eckit::Configuration & config)
+    : mist::State(geom,
+                  oops::Variables(config, "variables"),
+                  util::DateTime(config.getString("date")),
+                  false) {
   oops::Log::trace() << "lola::State::State from config starting" << std::endl;
   if (config.has("filepath")) {
     read(config);

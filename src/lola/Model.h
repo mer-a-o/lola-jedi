@@ -17,7 +17,7 @@
 namespace eckit {
 class Configuration;
 }
-namespace mist::base {
+namespace mist {
 class Geometry;
 class ModelAuxControl;
 }
@@ -34,10 +34,10 @@ class Model : public util::Printable {
  public:
   static std::vector<std::string> names() { return {}; }
 
-  Model(const mist::base::Geometry &, const eckit::Configuration &) {}
+  Model(const mist::Geometry &, const eckit::Configuration &) {}
 
   void initialize(State &) const {}
-  void step(State &, const mist::base::ModelAuxControl &) const {}
+  void step(State &, const mist::ModelAuxControl &) const {}
   void finalize(State &) const {}
   const util::Duration & timeResolution() const { return tstep_; }
 

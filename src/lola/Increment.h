@@ -15,9 +15,9 @@ class Configuration;
 
 namespace lola {
 
-class Increment : public mist::base::Increment {
+class Increment : public mist::Increment {
  public:
-  using mist::base::Increment::Increment;
+  using mist::Increment::Increment;
 
   void read(const eckit::Configuration & config);
   void write(const eckit::Configuration & config) const;
