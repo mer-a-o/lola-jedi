@@ -72,26 +72,24 @@ include( $ENV{jedi_cmake_ROOT}/share/jedicmake/Functions/git_functions.cmake )
 #
 #ecbuild_bundle( PROJECT gsw      GIT "https://github.com/jcsda-internal/GSW-Fortran.git" BRANCH develop UPDATE )
 
-#ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        BRANCH feature/mist_demo_using_base UPDATE )
-ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        TAG 56d17759002dc60506ceb25b27f794a652d23962 )
+ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        BRANCH develop UPDATE )
 
 #ecbuild_bundle( PROJECT jedi-model-data GIT "https://github.com/jcsda-internal/jedi-model-data.git"  BRANCH develop UPDATE )
-#ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       TAG f74de9519c02084ac4ed80738374ddf1d7771e44 )
-ecbuild_bundle( PROJECT saber    GIT "https://github.com/jcsda-internal/saber.git"       TAG 8571579e )  # pinned: last commit before oops::Diffusion::VerticalMethod dependency (PR #1234)
+ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT saber    GIT "https://github.com/jcsda-internal/saber.git"       BRANCH develop UPDATE )
 
+# mist now lives in its own repository (previously part of oops feature/mist branches)
+ecbuild_bundle( PROJECT mist     GIT "https://github.com/jcsda-internal/mist.git"        BRANCH develop UPDATE )
 
 ecbuild_bundle( PROJECT crtm     GIT "https://github.com/jcsda/CRTMv3.git"               BRANCH develop UPDATE )
 
 option(ENABLE_IODA_DATA "Obtain ioda test data from ioda-data repository (vs tarball)" ON)
 ecbuild_bundle( PROJECT ioda-data GIT "https://github.com/jcsda-internal/ioda-data.git"  BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        TAG 4c01e4857fc33b517a1890a8bb466698c019984d )
-#ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        BRANCH develop UPDATE )
 
 option(ENABLE_UFO_DATA "Obtain ufo test data from ufo-data repository (vs tarball)" ON)
 ecbuild_bundle( PROJECT ufo-data GIT "https://github.com/jcsda-internal/ufo-data.git"    BRANCH develop UPDATE )
-#ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         TAG a13a70e42 )  # pinned: last commit before shared_ptr→reference change in ObsFilters (PR #4112)
+ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         BRANCH develop UPDATE )
 
 
 ecbuild_bundle( PROJECT lola-jedi      GIT "https://github.com/mer-a-o/lola-jedi.git"         BRANCH main UPDATE )

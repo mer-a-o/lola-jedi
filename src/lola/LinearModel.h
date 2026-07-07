@@ -17,7 +17,7 @@
 namespace eckit {
 class Configuration;
 }
-namespace mist::base {
+namespace mist {
 class Geometry;
 class ModelAuxControl;
 class ModelAuxIncrement;
@@ -36,15 +36,15 @@ class LinearModel : public util::Printable {
  public:
   static std::vector<std::string> names() { return {}; }
 
-  LinearModel(const mist::base::Geometry &, const eckit::Configuration &) {}
+  LinearModel(const mist::Geometry &, const eckit::Configuration &) {}
 
   void setTrajectory(const lola::State &, lola::State &,
-                     const mist::base::ModelAuxControl &) {}
+                     const mist::ModelAuxControl &) {}
   void initializeTL(lola::Increment &) const {}
-  void stepTL(lola::Increment &, const mist::base::ModelAuxIncrement &) const {}
+  void stepTL(lola::Increment &, const mist::ModelAuxIncrement &) const {}
   void finalizeTL(lola::Increment &) const {}
   void initializeAD(lola::Increment &) const {}
-  void stepAD(lola::Increment &, mist::base::ModelAuxIncrement &) const {}
+  void stepAD(lola::Increment &, mist::ModelAuxIncrement &) const {}
   void finalizeAD(lola::Increment &) const {}
   const util::Duration & timeResolution() const { return tstep_; }
   const util::Duration & stepTrajectory() const { return tstep_; }

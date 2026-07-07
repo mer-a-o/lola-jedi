@@ -3,7 +3,7 @@
 LOLA is a minimal JEDI model interface for running `oops::HofX3D` and `oops::HofX4D`
 on regular latitude/longitude grids. The checked-in examples cover GEOS-CF/TEMPO
 HofX3D and MERRA-2-style 72-level model grids.
-It reuses the `mist::base` infrastructure from OOPS so that only file I/O and grid
+It reuses the `mist` infrastructure so that only file I/O and grid
 configuration need to be specified here.
 
 ## Design
@@ -12,17 +12,17 @@ LOLA is built on three layers:
 
 ```
 oops (algorithms: HofX3D, HofX4D, PseudoModel, …)
-  └── mist::base (Geometry, State, Increment, VariableChange, …)
+  └── mist (Geometry, State, Increment, VariableChange, …)
         └── lola (read/write for lat/lon NetCDF files + Traits wiring)
 ```
 
 | Concern | Implementation |
 |---------|---------------|
-| Geometry | `mist::base::Geometry` with `function space: StructuredColumns` YAML config |
+| Geometry | `mist::Geometry` with `function space: StructuredColumns` YAML config |
 | State / Increment I/O | `util::readFieldSet` / `util::writeFieldSet` via ATLAS FieldSet |
 | HofX3D model | Not needed — HofX3D reads a single state directly |
 | HofX4D model | `oops::PseudoModel` (registered automatically); reads successive files at each time step |
-| Variable mapping | `mist::base::VariableChange` wrapping VADER; configured entirely in YAML |
+| Variable mapping | `mist::VariableChange` wrapping VADER; configured entirely in YAML |
 | Observation operators | UFO, configured in YAML |
 
 The `lola::Model` class is a stub that satisfies the C++ interface required by
@@ -173,8 +173,8 @@ state:
 
 ## Dependencies
 
-- **oops** (`feature/mist_demo_using_base` branch) — algorithms and interfaces
-- **mist** (part of oops) — `mist::base` geometry, state, increment, variable change
+- **oops** (`develop` branch) — algorithms and interfaces
+- **mist** ([jcsda-internal/mist](https://github.com/jcsda-internal/mist), `develop` branch) — geometry, state, increment, variable change
 - **ATLAS** — `StructuredColumns` function space for lat/lon grids
 - **ioda** / **ufo** — observation data and operators
 - **saber** / **vader** — background error covariance and variable transforms
