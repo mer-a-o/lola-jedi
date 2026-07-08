@@ -72,27 +72,27 @@ include( $ENV{jedi_cmake_ROOT}/share/jedicmake/Functions/git_functions.cmake )
 #
 #ecbuild_bundle( PROJECT gsw      GIT "https://github.com/jcsda-internal/GSW-Fortran.git" BRANCH develop UPDATE )
 
-ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT oops     GIT "https://github.com/jcsda-internal/oops.git"        TAG abb9223e695f7fde265e052c824392be0b2b7032 )
 
 #ecbuild_bundle( PROJECT jedi-model-data GIT "https://github.com/jcsda-internal/jedi-model-data.git"  BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT saber    GIT "https://github.com/jcsda-internal/saber.git"       BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT vader    GIT "https://github.com/jcsda-internal/vader.git"       TAG d413aa52940fa12fdabfc97f50df36a89e55008c )
+ecbuild_bundle( PROJECT saber    GIT "https://github.com/jcsda-internal/saber.git"       TAG f155f4260004a5152db60ccdfd64f1eabc3bc47a )
 
 # mist now lives in its own repository (previously part of oops feature/mist branches)
-ecbuild_bundle( PROJECT mist     GIT "https://github.com/jcsda-internal/mist.git"        BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT mist     GIT "https://github.com/jcsda-internal/mist.git"        TAG af5c1d9726e65ed46c2866638c84a93bfb844cef )
 
-ecbuild_bundle( PROJECT crtm     GIT "https://github.com/jcsda/CRTMv3.git"               BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT crtm     GIT "https://github.com/jcsda/CRTMv3.git"               TAG 9901de139d02a09e615c0e6a9b244fd2c2494e26 )
 
 option(ENABLE_IODA_DATA "Obtain ioda test data from ioda-data repository (vs tarball)" ON)
-ecbuild_bundle( PROJECT ioda-data GIT "https://github.com/jcsda-internal/ioda-data.git"  BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT ioda-data GIT "https://github.com/jcsda-internal/ioda-data.git"  TAG 75b42686c53cb2f803a7b7d79f307440b67c2471 )
+ecbuild_bundle( PROJECT ioda     GIT "https://github.com/jcsda-internal/ioda.git"        TAG ee9e0861678fddc0f56f8402a0fc5c8f87ac6a3a )
 
 option(ENABLE_UFO_DATA "Obtain ufo test data from ufo-data repository (vs tarball)" ON)
-ecbuild_bundle( PROJECT ufo-data GIT "https://github.com/jcsda-internal/ufo-data.git"    BRANCH develop UPDATE )
-ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         BRANCH develop UPDATE )
+ecbuild_bundle( PROJECT ufo-data GIT "https://github.com/jcsda-internal/ufo-data.git"    TAG ca0d0e8746a1f1c88cb4ea8cd6af4918e264bc43 )
+ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         TAG b4688e1b48b4706c47bf6444eda4e20c626d7f4d )
 
 
-ecbuild_bundle( PROJECT lola-jedi      GIT "https://github.com/mer-a-o/lola-jedi.git"         BRANCH main UPDATE )
+ecbuild_bundle( PROJECT lola-jedi      GIT "https://github.com/mer-a-o/lola-jedi.git"         TAG d20f94a5ad495416b4547d5b744b1ee0cd370033 )
 
 # Build IODA converters if requested
 #option(BUILD_IODA_CONVERTERS "Build IODA Converters" OFF)
