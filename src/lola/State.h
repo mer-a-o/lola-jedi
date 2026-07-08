@@ -13,19 +13,19 @@ namespace eckit {
 class Configuration;
 }  // namespace eckit
 
-namespace mist::base {
+namespace mist {
 class Geometry;
-}  // namespace mist::base
+}  // namespace mist
 
 namespace lola {
 
-class State : public mist::base::State {
+class State : public mist::State {
  public:
   // Constructor with file I/O — reads from MERRA-2 NetCDF if "filepath" is present in config
-  State(const mist::base::Geometry &, const eckit::Configuration &);
+  State(const mist::Geometry &, const eckit::Configuration &);
 
   // All other constructors (copy, geometry-change, variable-change) from base
-  using mist::base::State::State;
+  using mist::State::State;
 
   void read(const eckit::Configuration & config);
   void write(const eckit::Configuration & config) const;

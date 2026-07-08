@@ -27,21 +27,21 @@ namespace lola {
 struct Traits {
  public:
   static std::string name() { return "LOLA"; }
-  static std::string nameCovar() { return "mist::base::ErrorCovariance::Identity"; }
+  static std::string nameCovar() { return "mist::ErrorCovariance::Identity"; }
 
-  using Covariance           = mist::base::ErrorCovariance;
+  using Covariance           = mist::ErrorCovariance;
   using Increment            = lola::Increment;
   using State                = lola::State;
 
-  using Geometry             = mist::base::Geometry;
-  using LinearVariableChange = mist::base::LinearVariableChange;
+  using Geometry             = mist::Geometry;
+  using LinearVariableChange = mist::LinearVariableChange;
   using LocalInterpolator    = oops::UnstructuredInterpolator;
   using Model                = lola::Model;
-  using ModelAuxControl      = mist::base::ModelAuxControl;
-  using ModelAuxIncrement    = mist::base::ModelAuxIncrement;
-  using ModelAuxCovariance   = mist::base::ModelAuxCovariance;
-  using ModelData            = mist::base::ModelData;
-  using VariableChange       = mist::base::VariableChange;
+  using ModelAuxControl      = mist::ModelAuxControl;
+  using ModelAuxIncrement    = mist::ModelAuxIncrement;
+  using ModelAuxCovariance   = mist::ModelAuxCovariance;
+  using ModelData            = mist::ModelData;
+  using VariableChange       = mist::VariableChange;
 };
 
 }  // namespace lola
