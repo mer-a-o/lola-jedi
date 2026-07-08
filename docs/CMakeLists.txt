@@ -92,7 +92,7 @@ ecbuild_bundle( PROJECT ufo-data GIT "https://github.com/jcsda-internal/ufo-data
 ecbuild_bundle( PROJECT ufo      GIT "https://github.com/jcsda-internal/ufo.git"         TAG b4688e1b48b4706c47bf6444eda4e20c626d7f4d )
 
 
-ecbuild_bundle( PROJECT lola-jedi      GIT "https://github.com/mer-a-o/lola-jedi.git"         BRANCH feature/3dvar UPDATE )
+ecbuild_bundle( PROJECT lola-jedi      GIT "https://github.com/mer-a-o/lola-jedi.git"         TAG 1b0d8917426b80430b0b82ca5cbb1a1041ad4f34 )
 
 # Build IODA converters if requested
 #option(BUILD_IODA_CONVERTERS "Build IODA Converters" OFF)
