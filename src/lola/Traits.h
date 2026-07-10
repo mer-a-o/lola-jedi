@@ -18,6 +18,7 @@
 #include "mist/base/ModelData.h"
 #include "mist/base/VariableChange.h"
 #include "lola/Increment.h"
+#include "lola/LinearModel.h"
 #include "lola/Model.h"
 #include "lola/State.h"
 #include "oops/generic/UnstructuredInterpolator.h"
@@ -34,6 +35,7 @@ struct Traits {
   using State                = lola::State;
 
   using Geometry             = mist::Geometry;
+  using LinearModel          = lola::LinearModel;
   using LinearVariableChange = mist::LinearVariableChange;
   using LocalInterpolator    = oops::UnstructuredInterpolator;
   using Model                = lola::Model;
