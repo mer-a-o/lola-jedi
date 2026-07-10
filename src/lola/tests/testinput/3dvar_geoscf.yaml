@@ -118,6 +118,8 @@ cost function:
 
 output:
   filepath: outputs/3dvar_geoscf_no2
+  latitude south to north: false
+
 
 variational:
   minimizer:
